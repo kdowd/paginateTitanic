@@ -44,8 +44,25 @@ function refreshView(e) {
     let minRange = maxRange - dbObj.range;
 
     clearContentElement();
+    showLoader();
     getChunks(minRange, --maxRange);
 
+}
+
+function showLoader() {
+    const container = document.querySelector('.content');
+    let imgElement = document.createElement('img');
+    imgElement.classList.add('loader');
+    imgElement.src = './loader.svg';
+    container.appendChild(imgElement);
+
+}
+
+function killLoader() {
+    const container = document.querySelector('.content');
+    let loader = container.querySelector('.loader');
+    container.removeChild(loader);
+    // loader.removeChild();
 }
 
 function initialView() {
@@ -65,10 +82,14 @@ async function getChunks(from, to) {
     if (error) {
         // update the UI, let the user know there's been a problem
         console.warn(error.message);
+        killLoader();
         return;
     }
 
-    if (!data || data.length == 0) return;
+    if (!data || data.length == 0) {
+        killLoader();
+        return;
+    }
     // window.debugData = data;
 
     const template = document.getElementById('passenger-card-template');
@@ -93,6 +114,7 @@ async function getChunks(from, to) {
         container.appendChild(clone);
 
     });
+    killLoader();
     updateUICounter(from, to);
 
 }
@@ -117,5 +139,6 @@ function updateUICounter(start, end) {
         to.textContent = dbObj.rows;
     }
 }
-
+showLoader();
 getMaxRows();
+//
