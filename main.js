@@ -1,0 +1,122 @@
+async function getMaxRows() {
+    const { count, error } = await db
+        .from(TABLE)
+        .select('*', { count: 'exact' });
+
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(`Total rows: ${count}`);
+        dbObj.rows = count;
+        drawButtons();
+        initialView();
+    }
+
+}
+
+function drawButtons() {
+    let buttonCount = dbObj.rows / dbObj.range;
+
+    const template = document.getElementById('user-card-template');
+    const container = document.querySelector('.pagination');
+
+    for (let i = 0; i < buttonCount; ++i) {
+
+        // Access the template's content and create a deep clone
+        const clone = template.content.cloneNode(true);
+
+        // 3. Populate the clone's elements with data
+        let theButtonElement = clone.querySelector('.btn-circle');
+        theButtonElement.textContent = i + 1;
+        theButtonElement.setAttribute('data-region', i + 1);
+
+        // 4. Append the fully built clone into the live DOM
+        container.appendChild(clone);
+
+    }
+
+}
+
+function refreshView(e) {
+
+    let maxRange = e.target.getAttribute("data-region") * dbObj.range;
+    // maxRange = Math.min(dbObj.rows, maxRange);
+    let minRange = maxRange - dbObj.range;
+
+    clearContentElement();
+    getChunks(minRange, --maxRange);
+
+}
+
+function initialView() {
+    getChunks(0, dbObj.range - 1);
+}
+
+async function getChunks(from, to) {
+    console.log("+++++++++++++++++++");
+    console.log(from, " -- ", to);
+    console.log("+++++++++++++++++++");
+    const { data, error } = await db.from(TABLE)
+        .select("*", { count: 'exact' })
+        .order("id", { ascending: true })
+        .range(from, to);
+
+    if (error) {
+        const err = new Error(error.message || "Supabase request failed");
+        err.details = error.details;
+        err.hint = error.hint;
+        err.code = error.code;
+        throw err;
+    }
+
+    if (!data || data.length === 0) return;
+    // window.pigg = data;
+
+    const template = document.getElementById('passenger-card-template');
+    const container = document.querySelector('.content');
+
+    data.forEach(element => {
+
+        const clone = template.content.cloneNode(true);
+
+        let nameElement = clone.querySelector(".name");
+        nameElement.textContent = element.name;
+
+        let ageElement = clone.querySelector(".age");
+        ageElement.textContent = element.age;
+
+        let survivedElement = clone.querySelector(".survived");
+        survivedElement.textContent = element.survived;
+
+        let fareElement = clone.querySelector(".fare");
+        fareElement.textContent = element.class;
+
+        container.appendChild(clone);
+
+    });
+    updateUICounter(from, to);
+
+}
+
+function clearContentElement() {
+    const container = document.querySelector('.content');
+    container.replaceChildren();
+}
+
+function updateUICounter(start, end) {
+    const uiCounterElement = document.querySelector(".ui-counter");
+    const from = uiCounterElement.querySelector(".from");
+    const to = uiCounterElement.querySelector(".to");
+    const ofElement = uiCounterElement.querySelector(".of");
+
+    from.textContent = `${start + 1} `;
+    to.textContent = `${end + 1} `;
+    ofElement.textContent = `${dbObj.rows}`;
+
+    // check for end
+    if (end > dbObj.rows) {
+        to.textContent = dbObj.rows;
+    }
+}
+
+getMaxRows();

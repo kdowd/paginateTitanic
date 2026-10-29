@@ -1,0 +1,70 @@
+body {
+  background-color: oldlace;
+  font-family: system-ui, sans-serif;
+}
+
+.btn-circle {
+  width: 34px;
+  aspect-ratio: 1; /* Ensures height always matches width */
+  border-radius: 50%; /* Rounds the edges completely */
+
+  /* Perfectly centers the text or icon inside */
+  display: grid;
+  place-items: center;
+
+  background-color: #04aa6d;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.content {
+  padding: 1rem;
+  display: grid;
+  place-content: center;
+  /* grid-template-columns: 1fr 1fr; */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 6px;
+  margin-bottom: 12rem;
+}
+
+.card {
+  padding: 10px;
+  background-color: azure;
+  min-width: 100px;
+  min-height: 20px;
+  border: 1px solid rgba(100, 164, 237, 0.33);
+  padding: 10px;
+  border-top-width: 2px;
+  border-bottom-width: 6px;
+
+  header {
+    h4 {
+      margin: 0;
+    }
+  }
+
+  p {
+    margin: 3px 0;
+  }
+}
+
+.pagination {
+  padding: 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background-color: rgba(100, 100, 100, 0.25);
+  backdrop-filter: blur(3px);
+}
+
+.ui-counter {
+  span {
+    font-family: monospace;
+    font-size: 1.4rem;
+  }
+}

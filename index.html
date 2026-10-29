@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+</head>
+
+<body>
+
+    <template id="user-card-template">
+        <button class="btn-circle" data-region="0" onclick="refreshView(event)"></button>
+    </template>
+
+    <template id="passenger-card-template">
+        <div class="card">
+            <header>
+                <h4 class="name">?</h4>
+            </header>
+            <p><span>Age: </span><span class="age"></span></p>
+            <p><span>Survived: </span><span class="survived"></span></p>
+            <p><span>Ticket/Class: </span><span class="fare"></span></p>
+        </div>
+    </template>
+
+    <div class="ui-counter">
+        <span>Rows </span>
+        <span class="from">-</span>
+        <span> to </span>
+        <span class="to">-</span>
+        <span> of </span>
+        <span class="of">-</span>
+    </div>
+
+    <div class="pagination"></div>
+    <div class="content"></div>
+
+
+    <script>
+        const SUPABASE_URL = "https://pkpbzthkwskkudqogyrl.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_MOHaPhKPaA_4Gb7ZMgxQgg_I4YNNk_w";
+        const TABLE = "titanic";
+        // max 1000 unless you change in the dashboard
+    </script>
+
+    <script>
+        let db = null;
+        let maxRows = 0;
+        let dbObj = { rows: 0, range: 50 };
+        if (!db) {
+            db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+                auth: { persistSession: false, autoRefreshToken: false }
+            });
+        }
+    </script>
+
+
+    <script src="./main.js"></script>
+
+</body>
+
+</html>
