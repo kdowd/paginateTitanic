@@ -1,6 +1,17 @@
 body {
   background-color: oldlace;
   font-family: system-ui, sans-serif;
+  margin: 0;
+
+  & > header {
+    background-color: rgba(5, 44, 219, 0.375);
+    padding: 2rem 0;
+
+    h2 {
+      margin: 0;
+      text-align: center;
+    }
+  }
 }
 
 .btn-circle {
@@ -65,6 +76,7 @@ body {
 }
 
 .ui-counter {
+  margin: 0.66rem;
   span {
     font-family: monospace;
     font-size: 1.4rem;
