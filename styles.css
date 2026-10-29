@@ -4,7 +4,7 @@ body {
   margin: 0;
 
   & > header {
-    background-color: rgba(5, 44, 219, 0.375);
+    background-color: rgba(5, 44, 219, 0.75);
     padding: 2rem 0;
 
     h2 {
@@ -23,7 +23,7 @@ body {
   display: grid;
   place-items: center;
 
-  background-color: rgb(8, 102, 29);
+  background-color: rgba(5, 44, 219, 0.375);
   color: white;
   border: none;
   cursor: pointer;
