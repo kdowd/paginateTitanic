@@ -28,7 +28,7 @@ function drawButtons() {
         // 3. Populate the clone's elements with data
         let theButtonElement = clone.querySelector('.btn-circle');
         theButtonElement.textContent = i + 1;
-        theButtonElement.setAttribute('data-region', i + 1);
+        theButtonElement.setAttribute('data-chunk', i + 1);
 
         // 4. Append the fully built clone into the live DOM
         container.appendChild(clone);
@@ -39,7 +39,7 @@ function drawButtons() {
 
 function refreshView(e) {
 
-    let maxRange = e.target.getAttribute("data-region") * dbObj.range;
+    let maxRange = e.target.getAttribute("data-chunk") * dbObj.range;
     // maxRange = Math.min(dbObj.rows, maxRange);
     let minRange = maxRange - dbObj.range;
 
@@ -53,24 +53,23 @@ function initialView() {
 }
 
 async function getChunks(from, to) {
-    console.log("+++++++++++++++++++");
-    console.log(from, " -- ", to);
-    console.log("+++++++++++++++++++");
-    const { data, error } = await db.from(TABLE)
-        .select("*", { count: 'exact' })
-        .order("id", { ascending: true })
+
+    let result = await db.from(TABLE)
+        .select('*')
+        .order('id', { ascending: true })
         .range(from, to);
 
+    let error = result.error;
+    let data = result.data;
+
     if (error) {
-        const err = new Error(error.message || "Supabase request failed");
-        err.details = error.details;
-        err.hint = error.hint;
-        err.code = error.code;
-        throw err;
+        // update the UI, let the user know there's been a problem
+        console.warn(error.message);
+        return;
     }
 
-    if (!data || data.length === 0) return;
-    // window.pigg = data;
+    if (!data || data.length == 0) return;
+    // window.debugData = data;
 
     const template = document.getElementById('passenger-card-template');
     const container = document.querySelector('.content');
