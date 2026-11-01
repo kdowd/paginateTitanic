@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+    <style>
+        .my-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 3rem;
+
+            button,
+            input {
+                padding: 0.66rem;
+            }
+
+
+            button {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .status {
+            position: fixed;
+            top: 0;
+            right: 0;
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>Yoobee Students</h2>
+        <div class="status">
+            <span></span>
+            <div class="email"></div>
+        </div>
+    </header>
+
+
+    <template id="student-card-template">
+        <div class="student-card">
+            <h2 class="name"></h2>
+            <p class="country"></p>
+        </div>
+    </template>
+
+    <div class="content" style="margin-bottom: unset;"></div>
+
+    <form action="" class="my-form" onsubmit="onSubmit(event)">
+        <input type="text" placeholder="username" name="username" autocomplete="on">
+        <input type="text" placeholder="password" name="password">
+        <button type="submit">Submit</button>
+    </form>
+
+    <hr>
+
+    <section class="sign-in-form" style="width: min-content; padding:2rem; background-color: crimson; margin:auto">
+        <h2>Sign In</h2>
+        <label for="email"> Email </label> <br />
+        <input type="email" autocomplete="on" id="email" class="sign-in" placeholder=" abc@gmail.com" /><span>
+            kdowd10@gmail.com</span>
+        <br /><br />
+
+        <label for="password"> Password </label> <br />
+        <input type="password" id="password" class="sign-in" placeholder=" Enter your password" /><span> 12345678</span>
+        <br /><br />
+
+
+        <input type="submit" id="submit" class="button" onclick="handleSignIn()" />
+        <button onclick="logOut()">Log out</button>
+    </section>
+
+
+
+    <script>
+        const SUPABASE_URL = "https://pkpbzthkwskkudqogyrl.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_MOHaPhKPaA_4Gb7ZMgxQgg_I4YNNk_w";
+        const TABLE = "yoobeestudents";
+        // max 1000 unless you change in the dashboard
+    </script>
+
+    <script>
+        db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        //     auth: { persistSession: false, autoRefreshToken: false }
+        // });
+    </script>
+
+    <script src="./yoobee.js"></script>
+    <script src="./yoobee-form.js"></script>
+
+</body>
+
+</html>
